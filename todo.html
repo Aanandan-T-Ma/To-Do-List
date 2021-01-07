@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>To Do App</title>
+</head>
+<body>
+    <div class="container">
+        <header class="title">To Do List</header>
+        <main>
+            <div class="task-lists">
+                <div class="list-header">
+                    <div id="list-name-title">Your Lists</div>
+                </div>
+                <ul class="list">
+                    <!-- <li class="list-name active-list">List1</li>
+                    <li class="list-name">List2</li>
+                    <li class="list-name">List3</li> -->
+                </ul>
+                <div class="input">
+                    <span class="plus">&#10011;</span>
+                    <input type="text" class="new-list" placeholder="Add List...">
+                </div>
+                <div class="list-footer"></div>
+            </div>
+            <div class="tasks">
+                <div class="task-list-header">
+                    <div id="list-title">List1</div>
+                    <div id="remaining">3 tasks remaining</div>
+                </div>
+                <ul class="list">
+                  <!--   <li class="task-name finished">Task1</li>
+                    <li class="task-name">Task2</li>
+                    <li class="task-name">Task3</li> -->
+                </ul>
+                <div class="input">
+                    <span class="plus">&#10011;</span>
+                    <input type="text" class="new-task" placeholder="Add task..." onkeypress="addTask(event)">
+                </div>
+                <div class="task-list-footer">
+                    <div id="clear">Clear finished tasks</div>
+                    <div id="select">Mark all tasks</div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+:root {
+    --card-radius: 10px;
+}
+body {
+    background-color: rgb(64, 49, 148);
+}
+.container {
+    margin: 30px 50px;
+}
+header {
+    text-align: center;
+    font-size: 30px;
+}
+main {
+    margin: 50px 20px;
+    display: flex;
+    justify-content: center;
+}
+.task-lists {
+    width: 50%;
+    border-radius: var(--card-radius);
+    margin: 10px 30px;
+    background-color: #f1f3f111;
+}
+.tasks {
+    width: 50%;
+    margin: 10px 30px;
+    background-color: #f1f3f1;
+    border-radius: var(--card-radius);
+}
+#list-title, #clear {
+    display: inline-block;
+    margin-right: auto;
+}
+#remaining, #select {
+    display: inline-block;
+}
+.task-list-header, .task-list-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 40px;
+    background-color: #25c525;
+}
+.task-list-header, .list-header {
+    border-radius: var(--card-radius) var(--card-radius) 0px 0px;
+}
+.task-list-footer {
+    border-radius: 0px 0px var(--card-radius) var(--card-radius);
+}
+.list {
+    display: block;
+    list-style-type: circle;
+}
+.task-name {
+    font-size: 18px;
+    padding-bottom: 5px;
+    border-bottom: 1px ridge gray;
+}
+.task-name, .list-name {
+    margin: 10px auto;
+    transition-duration: .3s;
+}
+.task-name:hover, .list-name:hover {
+    cursor: pointer;
+    color: rgb(196, 191, 191);
+}
+.list-name.active-list:hover {
+    color: white;
+}
+.new-task, .new-list {
+    border: none;
+    background: transparent;
+    border-bottom: 2px solid black;
+    margin: 5px 0px;
+    width: 35%;
+    transition-duration: .7s;
+}
+.new-task:focus, .new-list:focus {
+    outline: none;
+    border-bottom: 2px solid rgb(100, 6, 252);
+}
+.list-header {
+    text-align: center;
+    padding: 10px 40px;
+    background-color: #25c52555;
+}
+.plus {
+    margin: 5px 0px 5px 20px;
+}
+.input {
+    position: relative;
+    width: 100%;
+}
+@media only screen and (max-width: 768px) {
+    .container {
+        margin: 30px 10px;
+    }
+    main {
+        flex-direction: column;
+        margin: 50px 10px;
+    }
+    .task-lists, .tasks {
+        width: 100%;
+        margin: 10px 10px;
+    }
+}
+.active-list {
+    color: white;
+}
+.finished {
+    text-decoration: line-through;
+}
