@@ -67,7 +67,7 @@ main {
 .list-name.active-list:hover {
     color: white;
 }
-.new-task, .new-list {
+#new-task, #new-list {
     border: none;
     background: transparent;
     border-bottom: 2px solid black;
@@ -75,7 +75,7 @@ main {
     width: 35%;
     transition-duration: .7s;
 }
-.new-task:focus, .new-list:focus {
+#new-task:focus, #new-list:focus {
     outline: none;
     border-bottom: 2px solid rgb(100, 6, 252);
 }
@@ -97,6 +97,20 @@ main {
     }
     main {
         flex-direction: column;
+        align-items: center;
+        margin: 50px 10px;
+    }
+    .task-lists, .tasks {
+        width: 80%;
+        margin: 10px 10px;
+    }
+}
+@media only screen and (max-width: 450px) {
+    .container {
+        margin: 30px 10px;
+    }
+    main {
+        flex-direction: column;
         margin: 50px 10px;
     }
     .task-lists, .tasks {
@@ -107,6 +121,10 @@ main {
 .active-list {
     color: white;
 }
+.list li {
+    transition-duration: .5s;
+}
 .finished {
     text-decoration: line-through;
+    list-style-type: '\2705';
 }

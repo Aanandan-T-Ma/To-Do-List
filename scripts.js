@@ -1,11 +1,8 @@
-var lists = [
-    { id: 0, listname: 'list1', tasks: [{id: 0, name: 'task1', done: false}, {id: 1, name: 'task2', done: true}, {id: 2, name: 'task3', done: false}] },
-    { id: 4, listname: 'list2', tasks: [{id: 0, name: 'task4', done: true}, {id: 1, name: 'task5', done: false}, {id: 2, name: 'task6', done: false}] },
-    { id: 736, listname: 'list3', tasks: [{id: 0, name: 'task7', done: false}, {id: 1, name: 'task8', done: false}, {id: 2, name: 'task9', done: false}] }
-]
-var selectedList = 0;
+var lists, selectedList
 
 window.onload = () => {
+    lists = JSON.parse(localStorage.getItem('todo-lists')) || []
+    selectedList = localStorage.getItem('selected-list') || -1
     renderLists()
     renderTasks()
 }
@@ -24,6 +21,7 @@ function renderLists(){
 }
 
 function renderTasks(){
+    if(selectedList === -1) return;
     var ul = document.getElementsByClassName('list')[1]
     lists[selectedList].tasks.forEach((task) => {
         var li = document.createElement('li')
@@ -42,6 +40,7 @@ function selectList(event){
     ul.forEach(li => li.remove())
     var id = Number(event.target.id.substring(4))
     selectedList = getIndexById(id, 'list')
+    localStorage.setItem('selected-list', selectedList)
     document.getElementById(event.target.id).classList.add('active-list')
     renderTasks()
 }
@@ -53,13 +52,21 @@ function markTask(event){
     var li = document.getElementById(event.target.id)
     if(x) li.classList.remove('finished')
     else li.classList.add('finished')
-    //console.log(JSON.stringify(lists))
+    localStorage.setItem('todo-lists', JSON.stringify(lists))
 }
 
 function addTask(event){
     if(event.code == 'Enter'){
-        lists[selectedList].tasks.push()
-        //location.reload()
+        const name = document.getElementById(event.target.id).value
+        if(!name){ 
+            alert('Empty!')
+            return
+        }
+        const task = createTask(name)
+        lists[selectedList].tasks.push(task)
+        console.log(JSON.stringify(lists))
+        localStorage.setItem('todo-lists', JSON.stringify(lists))
+        location.reload()
     }
 }
 
