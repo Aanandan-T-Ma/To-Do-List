@@ -50,9 +50,11 @@ main {
 .list {
     display: block;
     list-style-type: circle;
+    transition-duration: .5s;
+    min-height: 150px;
 }
 .task-name {
-    font-size: 18px;
+    font-size: 20px;
     padding-bottom: 5px;
     border-bottom: 1px ridge gray;
 }
@@ -126,5 +128,18 @@ main {
 }
 .finished {
     text-decoration: line-through;
-    list-style-type: '\2705';
+    list-style-type: '\2714  ';
+}
+.del-icon {
+    display: none;
+    margin: 0px 20px;
+    padding: 0px;
+    font-size: 15px;
+    color: rgb(196, 191, 191);
+}
+.task-name:hover .del-icon {
+    display: inline-block;
+}
+.del-icon:hover {
+    color: black;
 }

@@ -3,8 +3,10 @@ var lists, selectedList
 window.onload = () => {
     lists = JSON.parse(localStorage.getItem('todo-lists')) || []
     selectedList = localStorage.getItem('selected-list') || -1
+    console.log(lists)
     renderLists()
     renderTasks()
+    updateListTitle()
 }
 
 function renderLists(){
@@ -14,7 +16,7 @@ function renderLists(){
         li.innerHTML = l.listname
         li.id = 'list' + l.id
         li.classList.add('list-name')
-        if(!index) li.classList.add('active-list')
+        if(index == selectedList) li.classList.add('active-list')
         li.setAttribute('onclick','selectList(event)')
         ul.appendChild(li)
     })
@@ -23,15 +25,21 @@ function renderLists(){
 function renderTasks(){
     if(selectedList === -1) return;
     var ul = document.getElementsByClassName('list')[1]
-    lists[selectedList].tasks.forEach((task) => {
+    lists[selectedList].tasks.forEach((task) => { 
         var li = document.createElement('li')
         li.innerHTML = task.name
         li.id = 'task' + task.id
         li.classList.add('task-name')
         if(task.done) li.classList.add('finished')
         li.setAttribute('onclick','markTask(event)')
+        var del = document.createElement('span')
+        del.innerHTML = '&#10006;'
+        del.classList.add('del-icon')
+        del.setAttribute('onclick','deleteTask('+task.id+')')
+        li.appendChild(del)
         ul.appendChild(li)
     })
+    updateRemainingTasks()
 }
 
 function selectList(event){
@@ -43,16 +51,19 @@ function selectList(event){
     localStorage.setItem('selected-list', selectedList)
     document.getElementById(event.target.id).classList.add('active-list')
     renderTasks()
+    updateListTitle()
 }
 
 function markTask(event){
+    var li = document.getElementById(event.target.id)
+    if(!li) return
     var id = Number(event.target.id.substring(4))
     var x = lists[selectedList].tasks[getIndexById(id, 'task')].done
     lists[selectedList].tasks[getIndexById(id, 'task')].done = !x
-    var li = document.getElementById(event.target.id)
     if(x) li.classList.remove('finished')
     else li.classList.add('finished')
     localStorage.setItem('todo-lists', JSON.stringify(lists))
+    updateRemainingTasks()
 }
 
 function addTask(event){
@@ -71,11 +82,33 @@ function addTask(event){
 }
 
 function createTask(name){
+    lastTask = lists[selectedList].tasks[lists[selectedList].tasks.length-1]
     return {
-        id: lists[selectedList].tasks[lists[selectedList].tasks.length-1].id + 1,
+        id: lastTask? lastTask.id + 1 : 0,
         name: name,
         done: false
     }
+}
+
+function deleteTask(taskId){
+    lists[selectedList].tasks = lists[selectedList].tasks.filter(task => task.id != taskId)
+    localStorage.setItem('todo-lists', JSON.stringify(lists))
+    document.getElementById('task'+taskId).remove()
+    updateRemainingTasks()
+}
+
+function updateListTitle(){
+    document.getElementById('list-title').innerHTML = lists[selectedList].listname
+}
+
+function updateRemainingTasks(){
+    remaining = lists[selectedList].tasks.reduce((rem, task) => {
+        return rem + !task.done
+    }, 0)
+    if(remaining == 1) remaining = '1 task remaining'
+    else remaining = remaining + ' tasks remaining'
+    document.getElementById('remaining').innerHTML = remaining
+    console.log(remaining)
 }
 
 function getIndexById(id, lt){
