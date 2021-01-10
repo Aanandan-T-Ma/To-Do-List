@@ -35,7 +35,7 @@ main {
 #remaining, #select {
     display: inline-block;
 }
-#select {
+#select, #clear {
     cursor: pointer;
 }
 .task-list-header, .task-list-footer {

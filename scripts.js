@@ -82,13 +82,9 @@ function getIndexById(id, a){
 function addTask(event){
     if(event.code == 'Enter'){
         const name = document.getElementById(event.target.id).value
-        if(!name){ 
-            alert('Empty!')
-            return
-        }
+        if(!name) return
         const task = createTask(name)
         lists[selectedList].tasks.push(task)
-        console.log(JSON.stringify(lists))
         localStorage.setItem('todo-lists', JSON.stringify(lists))
         location.reload()
     }
@@ -124,11 +120,41 @@ function updateRemainingTasks(){
 }
 
 function markAllTasks(){
-    lists[selectedList].tasks.forEach((task, index, tasks) => {
+    lists[selectedList].tasks.forEach(task => {
         if(!task.done){
             task.done = true
             document.getElementById('task'+task.id).classList.add('finished')
         }
     })
+    localStorage.setItem('todo-lists', JSON.stringify(lists))
     updateRemainingTasks()
+}
+
+function clearFinishedTasks(){
+    lists[selectedList].tasks.forEach(task => {
+        if(task.done)
+            document.getElementById('task'+task.id).remove()
+    })
+    lists[selectedList].tasks = lists[selectedList].tasks.filter(task => !task.done)
+    localStorage.setItem('todo-lists', JSON.stringify(lists))
+}
+
+function addList(event){
+    if(event.code == 'Enter'){
+        const name = document.getElementById(event.target.id).value
+        if(!name) return
+        const list = createList(name)
+        lists.push(list)
+        localStorage.setItem('todo-lists', JSON.stringify(lists))
+        location.reload()
+    }
+}
+
+function createList(name){
+    lastList = lists[lists.length - 1]
+    return {
+        id: lastList? lastList.id + 1 : 0,
+        listname: name,
+        tasks: []
+    }
 }
