@@ -35,6 +35,9 @@ main {
 #remaining, #select {
     display: inline-block;
 }
+#select {
+    cursor: pointer;
+}
 .task-list-header, .task-list-footer {
     display: flex;
     justify-content: flex-end;
@@ -108,16 +111,17 @@ main {
     }
 }
 @media only screen and (max-width: 450px) {
-    .container {
-        margin: 30px 10px;
-    }
-    main {
-        flex-direction: column;
-        margin: 50px 10px;
-    }
     .task-lists, .tasks {
         width: 100%;
-        margin: 10px 10px;
+    }
+    .task-list-footer {
+        flex-direction: column;
+        justify-content: center;
+    }
+    #select, #clear {
+        width: 100%;
+        display: block;
+        margin: 10px auto;
     }
 }
 .active-list {

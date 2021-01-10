@@ -47,7 +47,7 @@ function selectList(event){
     var ul = Array.from(document.getElementsByClassName('list')[1].getElementsByTagName('li'))
     ul.forEach(li => li.remove())
     var id = Number(event.target.id.substring(4))
-    selectedList = getIndexById(id, 'list')
+    selectedList = getIndexById(id, lists)
     localStorage.setItem('selected-list', selectedList)
     document.getElementById(event.target.id).classList.add('active-list')
     renderTasks()
@@ -58,12 +58,25 @@ function markTask(event){
     var li = document.getElementById(event.target.id)
     if(!li) return
     var id = Number(event.target.id.substring(4))
-    var x = lists[selectedList].tasks[getIndexById(id, 'task')].done
-    lists[selectedList].tasks[getIndexById(id, 'task')].done = !x
+    var x = lists[selectedList].tasks[getIndexById(id, lists[selectedList].tasks)].done
+    lists[selectedList].tasks[getIndexById(id, lists[selectedList].tasks)].done = !x
     if(x) li.classList.remove('finished')
     else li.classList.add('finished')
     localStorage.setItem('todo-lists', JSON.stringify(lists))
     updateRemainingTasks()
+}
+
+function getIndexById(id, a){
+    var l = 0, h = a.length - 1
+    while(l <= h){
+        var mid = Math.floor((l+h)/2)
+        if(a[mid].id == id)
+            return mid
+        if(a[mid].id > id)
+            h = mid - 1
+        else 
+            l = mid + 1
+    }
 }
 
 function addTask(event){
@@ -108,23 +121,14 @@ function updateRemainingTasks(){
     if(remaining == 1) remaining = '1 task remaining'
     else remaining = remaining + ' tasks remaining'
     document.getElementById('remaining').innerHTML = remaining
-    console.log(remaining)
 }
 
-function getIndexById(id, lt){
-    var l = 0, h = lists.length - 1
-    var a = lists
-    if(lt == 'task'){ 
-        h = lists[selectedList].tasks.length - 1
-        a = lists[selectedList].tasks
-    }
-    while(l <= h){
-        var mid = Math.floor((l+h)/2)
-        if(a[mid].id == id)
-            return mid
-        if(a[mid].id > id)
-            h = mid - 1
-        else 
-            l = mid + 1
-    }
+function markAllTasks(){
+    lists[selectedList].tasks.forEach((task, index, tasks) => {
+        if(!task.done){
+            task.done = true
+            document.getElementById('task'+task.id).classList.add('finished')
+        }
+    })
+    updateRemainingTasks()
 }
