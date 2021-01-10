@@ -13,7 +13,7 @@
         <main>
             <div class="task-lists">
                 <div class="list-header">
-                    <div id="list-name-title">Your Lists</div>
+                    <div id="list-name-title">Your Lists &#128195;</div>
                 </div>
                 <ul class="list">
                     <!-- <li class="list-name active-list">List1</li>
@@ -21,31 +21,40 @@
                     <li class="list-name">List3</li> -->
                 </ul>
                 <div class="input">
-                    <span class="plus">&#10011;</span>
-                    <input type="text" id="new-list" placeholder="Add List..." onkeypress="addList(event)">
+                    <span class="plus">&#128203;</span>
+                    <input type="text" id="new-list" placeholder="New List..." onkeyup="addList(event)">
                 </div>
                 <div class="list-footer"></div>
             </div>
             <div class="tasks">
-                <div class="task-list-header">
-                    <div id="list-title"></div>
-                    <div id="remaining"></div>
+                <div class="tasks-present">
+                    <div class="task-list-header">
+                        <div id="list-title"></div>
+                        <div id="remaining"></div>
+                    </div>
+                    <ul class="list">
+                      <!--   <li class="task-name finished">Task1</li>
+                        <li class="task-name">Task2</li>
+                        <li class="task-name">Task3</li> -->
+                    </ul>
+                    <div class="input">
+                        <span class="plus">&#10011;</span>
+                        <input type="text" id="new-task" placeholder="New task..." onkeyup="addTask(event)">
+                    </div>
+                    <div class="task-list-footer">
+                        <div id="clear" onclick="clearFinishedTasks()">Clear finished tasks</div>
+                        <div id="select" onclick="markAllTasks()">Mark all tasks</div>
+                        <div id="delete" onclick="deleteList()">Delete List</div>
+                    </div>
                 </div>
-                <ul class="list">
-                  <!--   <li class="task-name finished">Task1</li>
-                    <li class="task-name">Task2</li>
-                    <li class="task-name">Task3</li> -->
-                </ul>
-                <div class="input">
-                    <span class="plus">&#10011;</span>
-                    <input type="text" id="new-task" placeholder="Add task..." onkeypress="addTask(event)">
-                </div>
-                <div class="task-list-footer">
-                    <div id="clear" onclick="clearFinishedTasks()">Clear finished tasks</div>
-                    <div id="select" onclick="markAllTasks()">Mark all tasks</div>
+                <div id="no-task-msg">
+                    Your Tasks appear here
                 </div>
             </div>
         </main>
+        <footer>
+            To create a new list/task, type in the listname/taskname in the appropriate input and press Enter
+        </footer>
     </div>
     <script src="scripts.js"></script>
 </body>

@@ -1,7 +1,11 @@
 var lists, selectedList
+var sampleList = [
+    {id: 0, listname: 'College', tasks: [{id: 0, name: 'Java Assignment', done: false}, {id: 1, name: 'DBMS Project', done: false}, {id: 2, name: 'Buy Record Note', done: true}]},
+    {id: 1, listname: 'Holidays', tasks: [{id: 0, name: 'Book Movie tickets', done: true}, {id: 1, name: 'Recharge Data Pack', done: false}, {id: 2, name: 'Order Earphone', done: true}]}
+]
 
 window.onload = () => {
-    lists = JSON.parse(localStorage.getItem('todo-lists')) || []
+    lists = JSON.parse(localStorage.getItem('todo-lists')) || sampleList
     selectedList = localStorage.getItem('selected-list') || -1
     console.log(lists)
     renderLists()
@@ -23,29 +27,40 @@ function renderLists(){
 }
 
 function renderTasks(){
-    if(selectedList === -1) return;
-    var ul = document.getElementsByClassName('list')[1]
-    lists[selectedList].tasks.forEach((task) => { 
-        var li = document.createElement('li')
-        li.innerHTML = task.name
-        li.id = 'task' + task.id
-        li.classList.add('task-name')
-        if(task.done) li.classList.add('finished')
-        li.setAttribute('onclick','markTask(event)')
-        var del = document.createElement('span')
-        del.innerHTML = '&#10006;'
-        del.classList.add('del-icon')
-        del.setAttribute('onclick','deleteTask('+task.id+')')
-        li.appendChild(del)
-        ul.appendChild(li)
-    })
-    updateRemainingTasks()
+    if(selectedList == -1) {
+        document.getElementById('no-task-msg').style.display = 'block'
+        document.getElementsByClassName('tasks-present')[0].style.display = 'none'
+    }
+    else {
+        var ul = document.getElementsByClassName('list')[1]
+        lists[selectedList].tasks.forEach((task) => { 
+            var li = document.createElement('li')
+            li.innerHTML = task.name
+            li.id = 'task' + task.id
+            li.classList.add('task-name')
+            if(task.done) li.classList.add('finished')
+            li.setAttribute('onclick','markTask(event)')
+            var del = document.createElement('span')
+            del.innerHTML = '&#10006;'
+            del.classList.add('del-icon')
+            del.setAttribute('onclick','deleteTask('+task.id+')')
+            li.appendChild(del)
+            ul.appendChild(li)
+        })
+        updateRemainingTasks()
+    }
 }
 
 function selectList(event){
-    document.getElementById('list'+lists[selectedList].id).classList.remove('active-list')
-    var ul = Array.from(document.getElementsByClassName('list')[1].getElementsByTagName('li'))
-    ul.forEach(li => li.remove())
+    if(selectedList == -1) {
+        document.getElementById('no-task-msg').style.display = 'none'
+        document.getElementsByClassName('tasks-present')[0].style.display = 'block'   
+    }
+    else {
+        document.getElementById('list'+lists[selectedList].id).classList.remove('active-list')
+        var ul = Array.from(document.getElementsByClassName('list')[1].getElementsByTagName('li'))
+        ul.forEach(li => li.remove())
+    }
     var id = Number(event.target.id.substring(4))
     selectedList = getIndexById(id, lists)
     localStorage.setItem('selected-list', selectedList)
@@ -107,7 +122,11 @@ function deleteTask(taskId){
 }
 
 function updateListTitle(){
-    document.getElementById('list-title').innerHTML = lists[selectedList].listname
+    if(selectedList >= 0)
+        document.getElementById('list-title').innerHTML = lists[selectedList].listname
+    else {
+        document.getElementsByClassName('tasks')[0]
+    }
 }
 
 function updateRemainingTasks(){
@@ -141,6 +160,10 @@ function clearFinishedTasks(){
 
 function addList(event){
     if(event.code == 'Enter'){
+        if(!lists) {
+            document.getElementById('lists-present').style.display = 'block'
+            document.getElementById('no-list-msg').style.display = 'none'
+        }
         const name = document.getElementById(event.target.id).value
         if(!name) return
         const list = createList(name)
@@ -157,4 +180,11 @@ function createList(name){
         listname: name,
         tasks: []
     }
+}
+
+function deleteList(){
+    lists = lists.filter((list, index) => index != selectedList)
+    localStorage.setItem('todo-lists', JSON.stringify(lists))
+    localStorage.removeItem('selected-list')
+    location.reload()
 }

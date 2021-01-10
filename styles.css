@@ -25,30 +25,30 @@ main {
 .tasks {
     width: 50%;
     margin: 10px 30px;
-    background-color: #f1f3f1;
     border-radius: var(--card-radius);
+    position: relative;
 }
-#list-title, #clear {
+#list-title {
     display: inline-block;
     margin-right: auto;
 }
-#remaining, #select {
+#remaining, #select, #clear {
     display: inline-block;
 }
-#select, #clear {
+.task-list-footer * {
     cursor: pointer;
 }
 .task-list-header, .task-list-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 10px 40px;
     background-color: #25c525;
 }
-.task-list-header, .list-header {
-    border-radius: var(--card-radius) var(--card-radius) 0px 0px;
-}
 .task-list-footer {
     border-radius: 0px 0px var(--card-radius) var(--card-radius);
+}
+.task-list-header, .list-header {
+    border-radius: var(--card-radius) var(--card-radius) 0px 0px;
 }
 .list {
     display: block;
@@ -69,6 +69,9 @@ main {
     cursor: pointer;
     color: rgb(196, 191, 191);
 }
+.list-name {
+    font-size: 19px;
+}
 .list-name.active-list:hover {
     color: white;
 }
@@ -76,13 +79,16 @@ main {
     border: none;
     background: transparent;
     border-bottom: 2px solid black;
-    margin: 5px 0px;
+    margin: 5px 0px 20px 0px;
     width: 35%;
     transition-duration: .7s;
 }
-#new-task:focus, #new-list:focus {
+#new-task:focus {
     outline: none;
     border-bottom: 2px solid rgb(100, 6, 252);
+}
+#new-list:focus {
+    outline: none;
 }
 .list-header {
     text-align: center;
@@ -95,34 +101,6 @@ main {
 .input {
     position: relative;
     width: 100%;
-}
-@media only screen and (max-width: 768px) {
-    .container {
-        margin: 30px 10px;
-    }
-    main {
-        flex-direction: column;
-        align-items: center;
-        margin: 50px 10px;
-    }
-    .task-lists, .tasks {
-        width: 80%;
-        margin: 10px 10px;
-    }
-}
-@media only screen and (max-width: 450px) {
-    .task-lists, .tasks {
-        width: 100%;
-    }
-    .task-list-footer {
-        flex-direction: column;
-        justify-content: center;
-    }
-    #select, #clear {
-        width: 100%;
-        display: block;
-        margin: 10px auto;
-    }
 }
 .active-list {
     color: white;
@@ -146,4 +124,73 @@ main {
 }
 .del-icon:hover {
     color: black;
+}
+#no-task-msg {
+    display: none;
+    position: absolute;
+    top: 40%;
+    text-align: center;
+    bottom: 40%;
+    font-size: 50px;
+    background-color: #604caa;
+    height: max-content;
+    border-radius: var(--card-radius);
+    text-shadow: 0 0 5px #28fa0c;
+}
+.tasks-present {
+    background-color: #f1f3f1;
+    border-radius: var(--card-radius);
+}
+footer {
+    margin: 50px auto;
+    background-color: #e3f545;
+    text-align: center;
+    width: fit-content;
+    padding: 20px 30px;
+    border-radius: var(--card-radius);
+}
+@media only screen and (max-width: 768px) {
+    .container {
+        margin: 30px 10px;
+    }
+    main {
+        flex-direction: column;
+        align-items: center;
+        margin: 50px 10px;
+    }
+    .task-lists, .tasks {
+        width: 80%;
+        margin: 10px 10px;
+    }
+    #no-task-msg {
+        width: 100%;
+    }
+    footer {
+        width: 70%;
+        margin: 100px auto;
+    }
+}
+@media only screen and (max-width: 640px) {
+    footer {
+        margin: 150px auto;
+    }
+}
+@media only screen and (max-width: 450px) {
+    .task-lists, .tasks {
+        width: 100%;
+    }
+    .task-list-footer {
+        flex-direction: column;
+        justify-content: center;
+    }
+    .task-list-footer * {
+        width: 100%;
+        display: block;
+        margin: 10px auto;
+    }
+}
+@media only screen and (max-width: 300px) {
+    footer {
+        margin: 250px auto;
+    }
 }
