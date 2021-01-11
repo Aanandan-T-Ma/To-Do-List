@@ -37,6 +37,10 @@ main {
 }
 .task-list-footer * {
     cursor: pointer;
+    transition-duration: .5s;
+}
+.task-list-footer *:hover {
+    color: white;
 }
 .task-list-header, .task-list-footer {
     display: flex;

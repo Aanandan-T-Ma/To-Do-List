@@ -89,6 +89,7 @@ function addTask(event){
     localStorage.setItem('todo-lists', JSON.stringify(lists))
     document.getElementsByClassName('list')[1].appendChild(createTaskNode(task))
     document.getElementById('new-task').value = ''
+    updateRemainingTasks()
 }
 
 function createTask(name){
