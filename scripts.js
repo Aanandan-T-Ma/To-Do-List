@@ -15,13 +15,9 @@ window.onload = () => {
 
 function renderLists(){
     var ul = document.getElementsByClassName('list')[0]
-    lists.forEach((l, index) => {
-        var li = document.createElement('li')
-        li.innerHTML = l.listname
-        li.id = 'list' + l.id
-        li.classList.add('list-name')
+    lists.forEach((list, index) => {
+        var li = createListNode(list)
         if(index == selectedList) li.classList.add('active-list')
-        li.setAttribute('onclick','selectList(event)')
         ul.appendChild(li)
     })
 }
@@ -34,17 +30,7 @@ function renderTasks(){
     else {
         var ul = document.getElementsByClassName('list')[1]
         lists[selectedList].tasks.forEach((task) => { 
-            var li = document.createElement('li')
-            li.innerHTML = task.name
-            li.id = 'task' + task.id
-            li.classList.add('task-name')
-            if(task.done) li.classList.add('finished')
-            li.setAttribute('onclick','markTask(event)')
-            var del = document.createElement('span')
-            del.innerHTML = '&#10006;'
-            del.classList.add('del-icon')
-            del.setAttribute('onclick','deleteTask('+task.id+')')
-            li.appendChild(del)
+            var li = createTaskNode(task)
             ul.appendChild(li)
         })
         updateRemainingTasks()
@@ -94,23 +80,15 @@ function getIndexById(id, a){
     }
 }
 
-function addTask(){
-    /* if(event.code == 'Enter'){
-        const name = document.getElementById(event.target.id).value
-        if(!name) return
-        const task = createTask(name)
-        lists[selectedList].tasks.push(task)
-        localStorage.setItem('todo-lists', JSON.stringify(lists))
-        location.reload()
-    }
-    else */{
-        const name = document.getElementById('new-task').value
-        if(!name) return
-        const task = createTask(name)
-        lists[selectedList].tasks.push(task)
-        localStorage.setItem('todo-lists', JSON.stringify(lists))
-        //location.reload()
-    }
+function addTask(event){
+    event.preventDefault()
+    const name = document.getElementById('new-task').value
+    if(!name) return
+    const task = createTask(name)
+    lists[selectedList].tasks.push(task)
+    localStorage.setItem('todo-lists', JSON.stringify(lists))
+    document.getElementsByClassName('list')[1].appendChild(createTaskNode(task))
+    document.getElementById('new-task').value = ''
 }
 
 function createTask(name){
@@ -120,6 +98,21 @@ function createTask(name){
         name: name,
         done: false
     }
+}
+
+function createTaskNode(task){
+    var li = document.createElement('li')
+    li.innerHTML = task.name
+    li.id = 'task' + task.id
+    li.classList.add('task-name')
+    if(task.done) li.classList.add('finished')
+    li.setAttribute('onclick','markTask(event)')
+    var del = document.createElement('span')
+    del.innerHTML = '&#10006;'
+    del.classList.add('del-icon')
+    del.setAttribute('onclick','deleteTask('+task.id+')')
+    li.appendChild(del)
+    return li
 }
 
 function deleteTask(taskId){
@@ -167,18 +160,14 @@ function clearFinishedTasks(){
 }
 
 function addList(event){
-    if(event.code == 'Enter'){
-        if(!lists) {
-            document.getElementById('lists-present').style.display = 'block'
-            document.getElementById('no-list-msg').style.display = 'none'
-        }
-        const name = document.getElementById(event.target.id).value
-        if(!name) return
-        const list = createList(name)
-        lists.push(list)
-        localStorage.setItem('todo-lists', JSON.stringify(lists))
-        location.reload()
-    }
+    event.preventDefault()
+    const name = document.getElementById('new-list').value
+    if(!name) return
+    const list = createList(name)
+    lists.push(list)
+    localStorage.setItem('todo-lists', JSON.stringify(lists))
+    document.getElementsByClassName('list')[0].appendChild(createListNode(list))
+    document.getElementById('new-list').value = ''
 }
 
 function createList(name){
@@ -190,9 +179,23 @@ function createList(name){
     }
 }
 
+function createListNode(list){
+    var li = document.createElement('li')
+    li.innerHTML = list.listname
+    li.id = 'list' + list.id
+    li.classList.add('list-name')
+    li.setAttribute('onclick','selectList(event)')
+    return li
+}
+
 function deleteList(){
+    var ul = Array.from(document.getElementsByClassName('list')[1].getElementsByTagName('li'))
+    ul.forEach(li => li.remove())
+    document.getElementById('list'+lists[selectedList].id).remove() 
     lists = lists.filter((list, index) => index != selectedList)
+    document.getElementById('no-task-msg').style.display = 'block'
+    document.getElementsByClassName('tasks-present')[0].style.display = 'none'
     localStorage.setItem('todo-lists', JSON.stringify(lists))
-    localStorage.removeItem('selected-list')
-    location.reload()
+    selectedList = -1
+    localStorage.setItem('selected-list', selectedList)
 }
