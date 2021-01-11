@@ -38,8 +38,10 @@
                         <li class="task-name">Task3</li> -->
                     </ul>
                     <div class="input">
-                        <span class="plus">&#10011;</span>
-                        <input type="text" id="new-task" placeholder="New task..." onkeyup="addTask(event)">
+                        <form onsubmit="addTask()">
+                            <span class="plus">&#10011;</span>
+                            <input type="text" id="new-task" placeholder="New task..." >
+                        </form>
                     </div>
                     <div class="task-list-footer">
                         <div id="clear" onclick="clearFinishedTasks()">Clear finished tasks</div>

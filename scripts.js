@@ -94,14 +94,22 @@ function getIndexById(id, a){
     }
 }
 
-function addTask(event){
-    if(event.code == 'Enter'){
+function addTask(){
+    /* if(event.code == 'Enter'){
         const name = document.getElementById(event.target.id).value
         if(!name) return
         const task = createTask(name)
         lists[selectedList].tasks.push(task)
         localStorage.setItem('todo-lists', JSON.stringify(lists))
         location.reload()
+    }
+    else */{
+        const name = document.getElementById('new-task').value
+        if(!name) return
+        const task = createTask(name)
+        lists[selectedList].tasks.push(task)
+        localStorage.setItem('todo-lists', JSON.stringify(lists))
+        //location.reload()
     }
 }
 
