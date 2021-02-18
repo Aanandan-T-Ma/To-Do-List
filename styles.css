@@ -80,6 +80,7 @@ main {
     color: white;
 }
 #new-task, #new-list {
+    outline: none;
     border: none;
     background: transparent;
     border-bottom: 2px solid black;
@@ -88,11 +89,10 @@ main {
     transition-duration: .7s;
 }
 #new-task:focus {
-    outline: none;
-    border-bottom: 2px solid rgb(100, 6, 252);
+    border-bottom: 2px solid rgb(95, 0, 248);
 }
 #new-list:focus {
-    outline: none;
+    border-bottom: 2px solid rgb(255, 255, 255);
 }
 .list-header {
     text-align: center;
